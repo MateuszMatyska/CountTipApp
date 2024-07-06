@@ -18,10 +18,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.counttipapp.ui.theme.CountTipAppTheme
+import com.example.counttipapp.viewmodels.BillViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun TipScreen() {
+    val viewModel = BillViewModel()
     CountTipAppTheme{
         Scaffold(modifier = Modifier.fillMaxSize()) {
             Column(modifier = Modifier
@@ -36,6 +38,7 @@ fun TipScreen() {
                     )
                     )
                 }
+                Price(viewModel, modifier = Modifier.padding(10.dp))
             }
         }
     }

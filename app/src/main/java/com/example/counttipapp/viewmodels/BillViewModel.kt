@@ -8,42 +8,26 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class BillViewModel: ViewModel() {
-    private val _bill = MutableStateFlow(Bill())
-    val bill: StateFlow<Bill> = _bill.asStateFlow()
+    private val _bill = MutableStateFlow(Bill());
+    val bill: StateFlow<Bill> = _bill.asStateFlow();
 
-    fun changeBillCost(costValue: Double) {
-        _bill.update { currentState -> currentState.copy(
-            cost = costValue,
-            tipPercentage = currentState.tipPercentage,
-            tip = currentState.tip,
-            result = currentState.result
-        ) }
+    fun changeBillCost(costValue: String) {
+        val newCost = costValue.toDouble() ?: 0.0;
+        _bill.update { currentState -> currentState.copy(cost = newCost) };
     }
 
-    fun changeBillTipPercentage(percentageValue: Double) {
-        _bill.update { currentState -> currentState.copy(
-            cost = currentState.cost,
-            tipPercentage = percentageValue,
-            tip = currentState.tip,
-            result = currentState.result
-        ) }
+    fun changeBillTipPercentage(percentageValue: String) {
+        val newPercentage = percentageValue.toDouble() ?: 0.0;
+        _bill.update { currentState -> currentState.copy(tipPercentage = newPercentage) };
     }
 
-    fun changeBillTip(tipValue: Double) {
-        _bill.update { currentState -> currentState.copy(
-            cost = currentState.cost,
-            tipPercentage = currentState.tipPercentage,
-            tip = tipValue,
-            result = currentState.result
-        ) }
+    fun changeBillTip(tipValue: String) {
+        val newTip = _bill.value.cost * _bill.value.tipPercentage;
+        _bill.update { currentState -> currentState.copy(tip = newTip) };
     }
 
-    fun changeBillResult(resultValue: Double) {
-        _bill.update { currentState -> currentState.copy(
-            cost = currentState.cost,
-            tipPercentage = currentState.tipPercentage,
-            tip = currentState.tip,
-            result = resultValue
-        ) }
+    fun changeBillResult(resultValue: String) {
+        val newResult = _bill.value.cost + _bill.value.tip;
+        _bill.update { currentState -> currentState.copy(result = newResult) };
     }
 }
