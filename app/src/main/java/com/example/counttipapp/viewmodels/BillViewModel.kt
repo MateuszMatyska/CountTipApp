@@ -13,20 +13,25 @@ class BillViewModel: ViewModel() {
 
     fun changeBillCost(costValue: String) {
         val newCost = costValue.toDouble()
-        _bill.update { currentState -> currentState.copy(cost = newCost) }
+        if (newCost == 0.0) {
+          _bill.update { currentState -> currentState.copy(cost = newCost, result = 0.0) }
+        }
+        else {
+          _bill.update { currentState -> currentState.copy(cost = newCost) }
+        }
     }
 
-    fun changeBillTipPercentage(percentageValue: String) {
+    fun changeBillTipPercentage(percentageValue: Float) {
         val newPercentage = percentageValue.toDouble()
         _bill.update { currentState -> currentState.copy(tipPercentage = newPercentage) }
     }
 
-    fun changeBillTip(tipValue: String) {
-        val newTip = _bill.value.cost * _bill.value.tipPercentage
+    fun changeBillTip() {
+        val newTip = _bill.value.cost * (_bill.value.tipPercentage / 100.00)
         _bill.update { currentState -> currentState.copy(tip = newTip) }
     }
 
-    fun changeBillResult(resultValue: String) {
+    fun changeBillResult() {
         val newResult = _bill.value.cost + _bill.value.tip
         _bill.update { currentState -> currentState.copy(result = newResult) }
     }

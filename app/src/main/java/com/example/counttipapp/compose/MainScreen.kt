@@ -22,14 +22,16 @@ import com.example.counttipapp.viewmodels.BillViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun TipScreen() {
+fun MainScreen() {
     val viewModel = BillViewModel()
     CountTipAppTheme{
         Scaffold(modifier = Modifier.fillMaxSize()) {
             Column(modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 30.dp, start = 10.dp), horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Center) {
-                Column(modifier = Modifier.fillMaxWidth().padding(10.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(text = "Count Tip Application", color = MaterialTheme.colorScheme.surface, style = TextStyle(
                         fontSize = 32.sp,
                         shadow = Shadow(
@@ -39,13 +41,9 @@ fun TipScreen() {
                     )
                 }
                 Price(viewModel, modifier = Modifier.padding(10.dp))
+                Tip(viewModel, modifier = Modifier.padding(10.dp))
+                Result(viewModel, modifier = Modifier.padding(horizontal = 10.dp, vertical = 20.dp))
             }
         }
     }
 }
-
-// Components 
-//TipButton(title = "Title", onPressAction = { }, enabled = true)
-//TipLabel(title = "Title", text = "Text")
-//TipInput(value = "", placeholder = "Placeholder", onNameChange = {})
-//TipSlider(value = 10f, onChange = {})
