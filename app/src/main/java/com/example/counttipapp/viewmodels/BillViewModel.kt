@@ -11,39 +11,28 @@ class BillViewModel: ViewModel() {
     private val _bill = MutableStateFlow(Bill())
     val bill: StateFlow<Bill> = _bill.asStateFlow()
 
-    fun changeBillCost(costValue: Double) {
-        _bill.update { currentState -> currentState.copy(
-            cost = costValue,
-            tipPercentage = currentState.tipPercentage,
-            tip = currentState.tip,
-            result = currentState.result
-        ) }
+    fun changeBillCost(costValue: String) {
+        val newCost = costValue.toDouble()
+        if (newCost == 0.0) {
+          _bill.update { currentState -> currentState.copy(cost = newCost, result = 0.0) }
+        }
+        else {
+          _bill.update { currentState -> currentState.copy(cost = newCost) }
+        }
     }
 
-    fun changeBillTipPercentage(percentageValue: Double) {
-        _bill.update { currentState -> currentState.copy(
-            cost = currentState.cost,
-            tipPercentage = percentageValue,
-            tip = currentState.tip,
-            result = currentState.result
-        ) }
+    fun changeBillTipPercentage(percentageValue: Float) {
+        val newPercentage = percentageValue.toDouble()
+        _bill.update { currentState -> currentState.copy(tipPercentage = newPercentage) }
     }
 
-    fun changeBillTip(tipValue: Double) {
-        _bill.update { currentState -> currentState.copy(
-            cost = currentState.cost,
-            tipPercentage = currentState.tipPercentage,
-            tip = tipValue,
-            result = currentState.result
-        ) }
+    fun changeBillTip() {
+        val newTip = _bill.value.cost * (_bill.value.tipPercentage / 100.00)
+        _bill.update { currentState -> currentState.copy(tip = newTip) }
     }
 
-    fun changeBillResult(resultValue: Double) {
-        _bill.update { currentState -> currentState.copy(
-            cost = currentState.cost,
-            tipPercentage = currentState.tipPercentage,
-            tip = currentState.tip,
-            result = resultValue
-        ) }
+    fun changeBillResult() {
+        val newResult = _bill.value.cost + _bill.value.tip
+        _bill.update { currentState -> currentState.copy(result = newResult) }
     }
 }
